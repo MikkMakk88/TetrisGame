@@ -1,16 +1,23 @@
 #include <iostream>
-#include <ncurses.h>
+#include "main.hpp"
+
+// declarations
+bool gameOver;
+int score, fps;
 
 
-void setup();
-void draw();
-void input();
-void logic();
+// definitions
+#define width 20
+#define height 40
 
 
 int main()
 {
-    
+    setup();
+    draw();
+    input();
+    logic();
 
+    endwin();
     return 0;
 }
