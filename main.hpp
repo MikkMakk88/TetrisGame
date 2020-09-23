@@ -1,5 +1,8 @@
 #include <ncurses.h>
 
+const int fps = 30;
+
+
 void setup();
 void draw();
 void input();
@@ -18,18 +21,36 @@ void setup()
 
 }
 
-
 void draw()
 {
 
 }
 
-
 void input()
 {
-    timeout(1000 / fps);                      // set input blocking in ms
-}
+    timeout(1000 / fps);             // set input blocking in ms
+    int c = getch();
+    switch(c)
+    {
+        case KEY_LEFT:
+        break;
 
+        case KEY_RIGHT:
+        break;
+
+        case KEY_UP:
+        break;
+
+        case KEY_DOWN:
+        break;
+
+        case 81:
+        break;
+
+        default:
+        break;
+    }
+}
 
 void logic()
 {
