@@ -20,29 +20,22 @@ int main()
     // logic();
     // endwin();
 
-    Tetrominoe t1('L', 5);
+    Tetrominoe t1('L', 0);
     t1.commitShape();
-    t1.printSelf();
-
+    t1.rotate();
+    t1.commitShape();
+    std::cout<<std::endl;
     int blockCoordinates[4][2];
-    for(int i=0; i<4; i++)
-    {
-        t1.rotate();
-        t1.commitShape();
-        t1.printSelf();
-        t1.getBlockCoordinates(blockCoordinates);
+    t1.getBlockCoordinates(blockCoordinates);
 
-        std::cout<<std::endl;
-        for(int j=0; j<4; j++)
-        {
-            for(int k=0; k<2; k++)
-            {
-                std::cout<<blockCoordinates[j][k]<<" ";
-            }
-            std::cout<<std::endl;
-        }
-        std::cout<<std::endl;
-    }
+
+    Board board1(10, 10);
+    board1.printSelf();
+    board1.setTetrominoe(blockCoordinates);
+    board1.printSelf();
+    board1.removeRows(1);
+    board1.printSelf();
+
 
 
     return 0;
