@@ -60,7 +60,18 @@ bool Board::checkCollision(int arr[][2])
     {
         x = arr[i][0];
         y = arr[i][1];
+        // check if tetrominoe is colliding with a block
         if(boardState[x][y] == 1)
+        {
+            return true;
+        }
+        // check if tetrominoe is colliding with sides of the board
+        if(x < 0 || x > width - 1)
+        {
+            return true;
+        }
+        // check if tetrominoe is colliding with the bottom of the board
+        if(y > height - 1)
         {
             return true;
         }

@@ -1,11 +1,5 @@
-// #include "main.hpp"
-#include "TetrominoClass.hpp"
-#include "BoardClass.hpp"
-
-// declarations
-bool gameOver;
-int score;
-
+// #include "gameLoopFunctions.hpp"
+#include "gameLoopFunctions.hpp"
 
 // definitions
 #define width 20
@@ -14,6 +8,7 @@ int score;
 
 int main()
 {
+    int score;
     // setup();
     // draw();
     // input();
