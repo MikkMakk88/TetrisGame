@@ -1,4 +1,3 @@
-// #include "gameLoopFunctions.hpp"
 #include "gameLoopFunctions.hpp"
 
 // definitions
@@ -8,30 +7,40 @@
 
 int main()
 {
+    eDirection dir;
     int score;
-    // setup();
-    // draw();
-    // input();
-    // logic();
+    Board board(width, height);
+    Tetrominoe tetrominoe(width / 2, 0);
+
+    std::vector< std::vector<int> > gameBoard;
+    int blockCoordinates[4][2] = { 0 };
+
+    board.getBoardState(gameBoard);
+    // for(int i=0; i<height; i++)
+    // {
+    //     for(int j=0; j<width; j++)
+    //     {
+    //         int cell = gameBoard[i][j];
+    //     }
+    // }
+
+
+
+
+    std::cout<<"hi";
+   
+
+
+
+
+    // setup(); 
+    // while(true)
+    // {
+    //     draw()
+    //     input();
+    //     logic();
+    //     logic
+    // }
     // endwin();
-
-    Tetrominoe t1('L', 0);
-    t1.commitShape();
-    t1.rotate();
-    t1.commitShape();
-    std::cout<<std::endl;
-    int blockCoordinates[4][2];
-    t1.getBlockCoordinates(blockCoordinates);
-
-
-    Board board1(10, 10);
-    board1.printSelf();
-    board1.setTetrominoe(blockCoordinates);
-    board1.printSelf();
-    board1.removeRows(1);
-    board1.printSelf();
-
-
-
     return 0;
 }

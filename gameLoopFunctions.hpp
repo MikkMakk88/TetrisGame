@@ -1,8 +1,6 @@
 #include <ncurses.h>
 #include "TetrominoeClass.hpp"
 #include "BoardClass.hpp"
-#include <stdlib.h>
-#include <time.h>
 
 enum eDirection {NONE, LEFT, RIGHT, UP, DOWN};
 bool gameOver = false;
@@ -11,9 +9,8 @@ bool tetronimoeExists = false;
 
 void setup();
 void draw();
-void input();
+eDirection input();
 void logic();
-char getRandomShape();
 
 
 void setup()
@@ -28,12 +25,12 @@ void setup()
 
 }
 
-void draw(int blockCoordinates, std::vector< std::vector<int> > &boardState)
+void draw(int blockCoordinates[][2], std::vector< std::vector<int> > &boardState)
 {
     // draw board
 }
 
-void input()
+eDirection input()
 {
     eDirection dir;
     timeout(1000 / fps);             // set input blocking in ms
@@ -68,29 +65,4 @@ void logic()
     {
         
     }
-}
-
-char getRandomShape()
-{
-    srand(time(NULL));
-    int randint = rand() % 7;
-    char outputShape;
-    switch(randint)
-    {
-        case 0: outputShape = 'I';
-            break;
-        case 1: outputShape = 'O';
-            break;
-        case 2: outputShape = 'T';
-            break;
-        case 3: outputShape = 'L';
-            break;
-        case 4: outputShape = 'J';
-            break;
-        case 5: outputShape = 'S';
-            break;
-        case 6: outputShape = 'Z';
-            break;
-    }
-    return outputShape;
 }

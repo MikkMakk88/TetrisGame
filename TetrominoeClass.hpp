@@ -1,16 +1,21 @@
-#include <cstring>      // for memcpy
 #include "tetrominoeShapes.hpp"
+#include <cstring>      // for memcpy
 #include <iostream>
+#include <stdlib.h>     // for rand() & srand()
+#include <time.h>       // for time()
 
 
 class Tetrominoe
 {
         int x, y;
+        int spawnX, spawnY;
         int shape[4][4];
         int newShape[4][4];
+        char getRandomShape();
 
     public:
-        Tetrominoe(char shapeIn, int initialX);
+        Tetrominoe(int spawnXIn, int spawnYIn);
+        void newTetrominoe();
         void rotate();
         void moveLeft();
         void moveRight();
@@ -21,14 +26,48 @@ class Tetrominoe
 };
 
 // definitions for Tetrominoe methods
-Tetrominoe::Tetrominoe(char shapeIn, int initialX)
+Tetrominoe::Tetrominoe(int spawnXIn, int spawnYIn)
 {
     // x & y represent the upper left corner of the shape.
-    x = initialX;
-    y = 0;
+    spawnX = spawnXIn;
+    spawnY = spawnYIn;
+    newTetrominoe();
+}
+
+char Tetrominoe::getRandomShape()
+{
+    srand(time(NULL));
+    int randint = rand() % 7;
+    char outputShape;
+    switch(randint)
+    {
+        case 0: outputShape = 'I';
+            break;
+        case 1: outputShape = 'O';
+            break;
+        case 2: outputShape = 'T';
+            break;
+        case 3: outputShape = 'L';
+            break;
+        case 4: outputShape = 'J';
+            break;
+        case 5: outputShape = 'S';
+            break;
+        case 6: outputShape = 'Z';
+            break;
+    }
+    return outputShape;
+}
+
+void Tetrominoe::newTetrominoe()
+{
+    x = spawnX;
+    y = spawnY;
+
+    char shapeChar = getRandomShape();
 
     int * selectedShape;
-    switch(shapeIn)
+    switch(shapeChar)
     {
         case 'I':   selectedShape = &I[0][0];
             break;

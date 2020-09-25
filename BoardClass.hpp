@@ -11,6 +11,7 @@ class Board
         void setTetrominoe(int arr[][2]);
         bool checkCollision(int arr[][2]);
         void removeRows(int numRowsToDelete);
+        void getBoardState(std::vector< std::vector<int> > &board);
         void printSelf();
 };
 
@@ -77,6 +78,22 @@ bool Board::checkCollision(int arr[][2])
         }
     }
     return false;
+}
+
+void Board::getBoardState(std::vector< std::vector<int> > &board)
+{
+    std::cout<<"hi";
+    for(int i=0; i<height; i++)
+    {
+        board[i] = boardState[i];
+
+        int num;
+        for(int j=0; j<width; j++)
+        {
+            num = board[i][j];
+            std::cout<<num;
+        }
+    }
 }
 
 void Board::printSelf()
