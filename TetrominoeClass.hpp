@@ -106,17 +106,17 @@ void Tetrominoe::rotate()
 
 void Tetrominoe::moveLeft()
 {
-    x--;
+    y--;
 }
 
 void Tetrominoe::moveRight()
 {
-    x++;
+    y++;
 }
 
 void Tetrominoe::moveDown()
 {
-    y++;
+    x++;
 }
 
 // arr[4][2]
