@@ -22,7 +22,7 @@ class Board
 Board::Board(int widthIn, int heightIn)
 {
     width = widthIn;
-    height = heightIn;
+    height = heightIn + 1;
     
     
 

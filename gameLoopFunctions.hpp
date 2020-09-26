@@ -3,7 +3,7 @@
 #include "BoardClass.hpp"
 
 enum eDirection {NONE, LEFT, RIGHT, UP, DOWN};
-const int fps = 5;
+int fps = 30;
 bool tetronimoeExists = false;
 
 void setup();
@@ -20,7 +20,7 @@ void setup()
     curs_set(0);                    // make cursor invisible
     nonl();                         // no newline
     intrflush(stdscr, false);       // prevents tty driver queue flush on interrupt key
-    keypad(stdscr, true);          // enables ncurses to read the keypad from the terminal
+    keypad(stdscr, true);           // enables ncurses to read the keypad from the terminal
 
 }
 
@@ -36,7 +36,7 @@ void draw(Board &board, Tetrominoe &tetrominoe, bool debug)
     std::vector< std::vector<int> > boardState(height, std::vector<int>(width, 0));
     board.getBoardState(boardState);
 
-    for(int i=0; i<height; i++)
+    for(int i=0; i<height - 1; i++)
     {
         for(int j=0; j<width; j++)
         {
@@ -119,19 +119,15 @@ void logic(Board &board, Tetrominoe &tetrominoe, eDirection dir, bool &gameOver)
         case LEFT:      
             tetrominoe.moveLeft();
             break;
-
         case RIGHT:
             tetrominoe.moveRight();
             break;
-
         case UP:
             tetrominoe.rotate();
-            break;
-        
+            break;    
         case DOWN:
             tetrominoe.moveDown();
             break;
-
         default:
             break;
     }
@@ -142,6 +138,17 @@ void logic(Board &board, Tetrominoe &tetrominoe, eDirection dir, bool &gameOver)
     result = board.checkCollision(blockCoordinates);
     if(result)
     {
-        tetrominoe.revertShape();
+        // if collision happened and last action was move down
+        // freeze block on board
+        if(dir == DOWN)
+        {
+            tetrominoe.revertShape();
+            tetrominoe.getBlockCoordinates(blockCoordinates);
+            board.setTetrominoe(blockCoordinates);
+            tetrominoe.newTetrominoe();
+        }
+        else{
+            tetrominoe.revertShape();
+        }
     }
 }

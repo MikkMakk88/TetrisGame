@@ -67,7 +67,9 @@ char Tetrominoe::getRandomShape()
 void Tetrominoe::newTetrominoe()
 {
     x = spawnX;
-    x = spawnY;
+    y = spawnY;
+    lastX = x;
+    lastY = y;
 
     char shapeChar = getRandomShape();
 
