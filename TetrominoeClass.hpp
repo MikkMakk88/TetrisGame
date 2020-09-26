@@ -29,14 +29,14 @@ class Tetrominoe
 Tetrominoe::Tetrominoe(int spawnXIn, int spawnYIn)
 {
     // x & y represent the upper left corner of the shape.
+    srand(time(NULL));
     spawnX = spawnXIn;
     spawnY = spawnYIn;
-    // newTetrominoe();
+    newTetrominoe();
 }
 
 char Tetrominoe::getRandomShape()
 {
-    srand(time(NULL));
     int randint = rand() % 7;
     char outputShape;
     switch(randint)
@@ -65,7 +65,6 @@ void Tetrominoe::newTetrominoe()
     y = spawnY;
 
     char shapeChar = getRandomShape();
-    // char shapeChar = 'S';
 
     int * selectedShape;
     switch(shapeChar)
@@ -85,8 +84,8 @@ void Tetrominoe::newTetrominoe()
         case 'Z':   selectedShape = &Z[0][0];
             break;
     }
-    std::cout<<shapeChar;
     std::memcpy(newShape, selectedShape, 4*4*sizeof(int));
+    commitShape();
 }
 
 void Tetrominoe::rotate()
@@ -141,6 +140,8 @@ void Tetrominoe::getBlockCoordinates(int arr[][2])
     }
 }
 
+// commit newShape to shape. 
+// Use after checking for collisions to confirm
 void Tetrominoe::commitShape()
 {
     std::memcpy(shape, newShape, 16*sizeof(int));

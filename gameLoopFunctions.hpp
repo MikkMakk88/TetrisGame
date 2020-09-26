@@ -25,9 +25,33 @@ void setup()
 
 }
 
-void draw(int blockCoordinates[][2], std::vector< std::vector<int> > &boardState)
+void draw(int width, int height, std::vector< std::vector<int> > &boardState, int blockCoordinates[][2])
 {
+    clear();
+
     // draw board
+    for(int i=0; i<height; i++)
+    {
+        for(int j=0; j<width; j++)
+        {
+            if(boardState[i][j])
+            {
+                mvprintw(i, j*2, "# ");
+            } else{
+                mvprintw(i, j*2, ". ");
+            }
+        }
+    }
+    // draw tetrominoe
+    int x, y;
+    for(int i=0; i<4; i++)
+    {
+        x = blockCoordinates[i][0];
+        y = blockCoordinates[i][1];
+        mvprintw(x, y*2, "# ");
+    }
+
+    refresh();
 }
 
 eDirection input()
