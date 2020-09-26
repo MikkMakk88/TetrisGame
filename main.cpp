@@ -10,6 +10,7 @@ int main()
     eDirection dir;
     int score;
     bool gameOver = false;
+    bool debug = true;
     // initialize board and tetrominoe
     Board board(width, height);
     Tetrominoe tetrominoe(width / 2 - 2, 0);
@@ -18,7 +19,7 @@ int main()
     setup(); 
     while(!gameOver)
     {
-        draw(board, tetrominoe);
+        draw(board, tetrominoe, debug);
         input(dir, gameOver);
         logic(board, tetrominoe, dir, gameOver);
     }

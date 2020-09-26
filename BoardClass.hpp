@@ -52,8 +52,8 @@ void Board::setTetrominoe(int arr[][2])
     int x, y;
     for(int i=0; i<4; i++)
     {
-        x = arr[i][1];
-        y = arr[i][0];
+        x = arr[i][0];
+        y = arr[i][1];
         boardState[y][x] = 1;
     }
 }
@@ -66,10 +66,10 @@ bool Board::checkCollision(int arr[][2])
         x = arr[i][0];
         y = arr[i][1];
         // check if tetrominoe is colliding with a block
-        // if(boardState[y][x] == 1)
-        // {
-        //     return true;
-        // }
+        if(boardState[y][x] == 1)
+        {
+            return true;
+        }
         // check if tetrominoe is colliding with sides of the board
         if(x < 0 || x > width - 1)
         {

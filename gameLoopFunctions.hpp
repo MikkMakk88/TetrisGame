@@ -7,7 +7,7 @@ const int fps = 5;
 bool tetronimoeExists = false;
 
 void setup();
-void draw(Board &board, Tetrominoe &tetrominoe);
+void draw(Board &board, Tetrominoe &tetrominoe, bool debug);
 void input(eDirection &dir, bool &gameOver);
 void logic(Board &board, Tetrominoe &tetrominoe, eDirection dir, bool &gameOver);
 
@@ -24,7 +24,7 @@ void setup()
 
 }
 
-void draw(Board &board, Tetrominoe &tetrominoe)
+void draw(Board &board, Tetrominoe &tetrominoe, bool debug)
 {
     clear();
 
@@ -52,12 +52,28 @@ void draw(Board &board, Tetrominoe &tetrominoe)
     // get tetrominoe information and draw tetrominoe
     int x, y;
     int blockCoordinates[4][2] = { 0 };
-    tetrominoe.getBlockCoordinates(blockCoordinates);
+    tetrominoe.getBlockCoordinates(blockCoordinates, false);
     for(int i=0; i<4; i++)
     {
         x = blockCoordinates[i][0];
         y = blockCoordinates[i][1];
-        mvprintw(x, y*2, "# ");
+        mvprintw(y, x*2, "# ");
+    }
+
+    // debug info
+    if(debug)
+    {
+        // tetrominoe coordinates
+        for(int i=0; i<4; i++)
+        {
+            x = blockCoordinates[i][0];
+            y = blockCoordinates[i][1];
+            mvprintw(height + 2 + i, 0, "x: %d", x);
+            mvprintw(height + 2 + i, 5, ", y: %d", y);
+        }
+        // collision
+        bool result = board.checkCollision(blockCoordinates);
+        mvprintw(height + 2, 13, "Collision: %d", result);
     }
 
     refresh();
@@ -122,12 +138,13 @@ void logic(Board &board, Tetrominoe &tetrominoe, eDirection dir, bool &gameOver)
 
     bool result;
     int blockCoordinates[4][2];
-    tetrominoe.getBlockCoordinates(blockCoordinates);
+    tetrominoe.getBlockCoordinates(blockCoordinates, true);
     result = board.checkCollision(blockCoordinates);
     if(!result)
     {
         tetrominoe.commitShape();
-    }else
+    }
+    else if(dir == DOWN)
     {
         board.setTetrominoe(blockCoordinates);
         tetrominoe.newTetrominoe();

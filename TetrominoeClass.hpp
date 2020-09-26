@@ -8,6 +8,7 @@
 class Tetrominoe
 {
         int x, y;
+        int newX, newY;
         int spawnX, spawnY;
         int shape[4][4];
         int newShape[4][4];
@@ -20,7 +21,7 @@ class Tetrominoe
         void moveLeft();
         void moveRight();
         void moveDown();
-        void getBlockCoordinates(int arr[][2]);
+        void getBlockCoordinates(int arr[][2], bool collisionDetect);
         void commitShape();
         void printSelf();
 };
@@ -61,8 +62,8 @@ char Tetrominoe::getRandomShape()
 
 void Tetrominoe::newTetrominoe()
 {
-    x = spawnX;
-    y = spawnY;
+    newX = spawnX;
+    newY = spawnY;
 
     char shapeChar = getRandomShape();
 
@@ -106,21 +107,24 @@ void Tetrominoe::rotate()
 
 void Tetrominoe::moveLeft()
 {
-    y--;
+    newX = x;
+    newX--;
 }
 
 void Tetrominoe::moveRight()
 {
-    y++;
+    newX = x;
+    newX++;
 }
 
 void Tetrominoe::moveDown()
 {
-    x++;
+    newY = y;
+    newY++;
 }
 
 // arr[4][2]
-void Tetrominoe::getBlockCoordinates(int arr[][2])
+void Tetrominoe::getBlockCoordinates(int arr[][2], bool collisionDetect)
 {
     int offsetX, offsetY;
     int cnt = 0;
@@ -132,8 +136,15 @@ void Tetrominoe::getBlockCoordinates(int arr[][2])
             {
                 offsetX = j;
                 offsetY = i;
-                arr[cnt][0] = x + offsetX;
-                arr[cnt][1] = y + offsetY;
+                if(collisionDetect)
+                {
+                    arr[cnt][0] = newX + offsetX;
+                    arr[cnt][1] = newY + offsetY;
+                }else
+                {
+                    arr[cnt][0] = x + offsetX;
+                    arr[cnt][1] = y + offsetY;
+                }
                 cnt++;
             }
         }
@@ -145,6 +156,8 @@ void Tetrominoe::getBlockCoordinates(int arr[][2])
 void Tetrominoe::commitShape()
 {
     std::memcpy(shape, newShape, 16*sizeof(int));
+    x = newX;
+    y = newY;
 }
 
 void Tetrominoe::printSelf()
