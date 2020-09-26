@@ -76,7 +76,7 @@ bool Board::checkCollision(int arr[][2])
             return true;
         }
         // check if tetrominoe is colliding with the bottom of the board
-        if(y > height)
+        if(y >= height - 1)
         {
             return true;
         }

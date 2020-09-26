@@ -52,7 +52,7 @@ void draw(Board &board, Tetrominoe &tetrominoe, bool debug)
     // get tetrominoe information and draw tetrominoe
     int x, y;
     int blockCoordinates[4][2] = { 0 };
-    tetrominoe.getBlockCoordinates(blockCoordinates, false);
+    tetrominoe.getBlockCoordinates(blockCoordinates);
     for(int i=0; i<4; i++)
     {
         x = blockCoordinates[i][0];
@@ -138,16 +138,10 @@ void logic(Board &board, Tetrominoe &tetrominoe, eDirection dir, bool &gameOver)
 
     bool result;
     int blockCoordinates[4][2];
-    tetrominoe.getBlockCoordinates(blockCoordinates, true);
+    tetrominoe.getBlockCoordinates(blockCoordinates);
     result = board.checkCollision(blockCoordinates);
-    if(!result)
+    if(result)
     {
-        tetrominoe.commitShape();
+        tetrominoe.revertShape();
     }
-    else if(dir == DOWN)
-    {
-        board.setTetrominoe(blockCoordinates);
-        tetrominoe.newTetrominoe();
-    }
-    
 }

@@ -7,12 +7,13 @@
 
 class Tetrominoe
 {
-        int x, y;
-        int newX, newY;
         int spawnX, spawnY;
-        int shape[4][4];
-        int newShape[4][4];
         char getRandomShape();
+        int x, y;
+        int lastX, lastY;
+        int shape[4][4];
+        int lastShape[4][4];
+        char lastMove;
 
     public:
         Tetrominoe(int spawnXIn, int spawnYIn);
@@ -21,8 +22,8 @@ class Tetrominoe
         void moveLeft();
         void moveRight();
         void moveDown();
-        void getBlockCoordinates(int arr[][2], bool collisionDetect);
-        void commitShape();
+        void getBlockCoordinates(int arr[][2]);
+        void revertShape();
         void printSelf();
 };
 
@@ -34,6 +35,9 @@ Tetrominoe::Tetrominoe(int spawnXIn, int spawnYIn)
     spawnX = spawnXIn;
     spawnY = spawnYIn;
     newTetrominoe();
+    lastX = x;
+    lastY = y;
+    std::memcpy(lastShape, shape, 4*4 * sizeof(int));
 }
 
 char Tetrominoe::getRandomShape()
@@ -62,8 +66,8 @@ char Tetrominoe::getRandomShape()
 
 void Tetrominoe::newTetrominoe()
 {
-    newX = spawnX;
-    newY = spawnY;
+    x = spawnX;
+    x = spawnY;
 
     char shapeChar = getRandomShape();
 
@@ -85,12 +89,14 @@ void Tetrominoe::newTetrominoe()
         case 'Z':   selectedShape = &Z[0][0];
             break;
     }
-    std::memcpy(newShape, selectedShape, 4*4*sizeof(int));
-    commitShape();
+    std::memcpy(shape, selectedShape, 4*4*sizeof(int));
 }
 
 void Tetrominoe::rotate()
 {
+    lastMove = 'r';
+    std::memcpy(lastShape, shape, 4*4 * sizeof(int));
+
     int tempShape[4][4] = {0};
     for(int row=0; row<4; row++)
     {
@@ -102,29 +108,35 @@ void Tetrominoe::rotate()
             }
         }
     }
-    std::memcpy(newShape, tempShape, 4*4 * sizeof(int));
+    std::memcpy(shape, tempShape, 4*4 * sizeof(int));
 }
 
 void Tetrominoe::moveLeft()
 {
-    newX = x;
-    newX--;
+    lastMove = 'm';
+    lastX = x;
+    lastY = y;
+    x--;
 }
 
 void Tetrominoe::moveRight()
 {
-    newX = x;
-    newX++;
+    lastMove = 'm';
+    lastX = x;
+    lastY = y;
+    x++;
 }
 
 void Tetrominoe::moveDown()
 {
-    newY = y;
-    newY++;
+    lastMove = 'm';
+    lastX = x;
+    lastY = y;
+    y++;
 }
 
 // arr[4][2]
-void Tetrominoe::getBlockCoordinates(int arr[][2], bool collisionDetect)
+void Tetrominoe::getBlockCoordinates(int arr[][2])
 {
     int offsetX, offsetY;
     int cnt = 0;
@@ -136,28 +148,27 @@ void Tetrominoe::getBlockCoordinates(int arr[][2], bool collisionDetect)
             {
                 offsetX = j;
                 offsetY = i;
-                if(collisionDetect)
-                {
-                    arr[cnt][0] = newX + offsetX;
-                    arr[cnt][1] = newY + offsetY;
-                }else
-                {
-                    arr[cnt][0] = x + offsetX;
-                    arr[cnt][1] = y + offsetY;
-                }
+
+                arr[cnt][0] = x + offsetX;
+                arr[cnt][1] = y + offsetY;
+
                 cnt++;
             }
         }
     }
 }
 
-// commit newShape to shape. 
-// Use after checking for collisions to confirm
-void Tetrominoe::commitShape()
+// use to revert back to previous shape in case of collision
+void Tetrominoe::revertShape()
 {
-    std::memcpy(shape, newShape, 16*sizeof(int));
-    x = newX;
-    y = newY;
+    if(lastMove == 'm')
+    {
+        x = lastX;
+        y = lastY;
+    }
+    else{
+        std::memcpy(shape, lastShape, 4*4 * sizeof(int));
+    }
 }
 
 void Tetrominoe::printSelf()
