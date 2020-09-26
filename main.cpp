@@ -1,37 +1,41 @@
 #include "gameLoopFunctions.hpp"
 
 // definitions
-#define width 20
-#define height 40
+#define width 10
+#define height 20
 
 
 int main()
 {
+    // declare variables
     eDirection dir;
     int score;
+    // initialize board and tetrominoe
     Board board(width, height);
-    Tetrominoe tetrominoe(width / 2, 0);
-
-    std::vector< std::vector<int> > gameBoard;
+    Tetrominoe tetrominoe(width / 2 - 2, 0);
+    // create variables to move around the state
+    std::vector< std::vector<int> > gameBoard(height, std::vector<int>(width, 0));
     int blockCoordinates[4][2] = { 0 };
+    // copy state of board to gameboard variable
+    // board.printSelf();
+    // std::cout<<std::endl;
 
-    board.getBoardState(gameBoard);
-    // for(int i=0; i<height; i++)
-    // {
-    //     for(int j=0; j<width; j++)
-    //     {
-    //         int cell = gameBoard[i][j];
-    //     }
-    // }
+    tetrominoe.printSelf();
+    tetrominoe.rotate();
+    tetrominoe.commitShape();
+    tetrominoe.printSelf();
+    tetrominoe.newTetrominoe();
+    tetrominoe.printSelf();
+    tetrominoe.rotate();
+    tetrominoe.commitShape();
+    tetrominoe.printSelf();
+    // std::cout<<std::endl;
 
+    // tetrominoe.getBlockCoordinates(blockCoordinates);
+    // board.setTetrominoe(blockCoordinates);
+    // board.printSelf();
 
-
-
-    std::cout<<"hi";
    
-
-
-
 
     // setup(); 
     // while(true)

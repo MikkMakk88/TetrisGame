@@ -31,7 +31,7 @@ Tetrominoe::Tetrominoe(int spawnXIn, int spawnYIn)
     // x & y represent the upper left corner of the shape.
     spawnX = spawnXIn;
     spawnY = spawnYIn;
-    newTetrominoe();
+    // newTetrominoe();
 }
 
 char Tetrominoe::getRandomShape()
@@ -65,6 +65,7 @@ void Tetrominoe::newTetrominoe()
     y = spawnY;
 
     char shapeChar = getRandomShape();
+    // char shapeChar = 'S';
 
     int * selectedShape;
     switch(shapeChar)
@@ -84,7 +85,8 @@ void Tetrominoe::newTetrominoe()
         case 'Z':   selectedShape = &Z[0][0];
             break;
     }
-    std::memcpy(newShape, selectedShape, 16*sizeof(int));
+    std::cout<<shapeChar;
+    std::memcpy(newShape, selectedShape, 4*4*sizeof(int));
 }
 
 void Tetrominoe::rotate()
@@ -100,7 +102,7 @@ void Tetrominoe::rotate()
             }
         }
     }
-    std::memcpy(newShape, tempShape, 16*sizeof(int));
+    std::memcpy(newShape, tempShape, 4*4 * sizeof(int));
 }
 
 void Tetrominoe::moveLeft()
