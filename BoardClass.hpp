@@ -5,15 +5,16 @@ class Board
 {
         int height, width;
         std::vector< std::vector<int> > boardState;
+        void deleteRow(int numRowsToDelete);
 
     public:
         Board(int widthIn, int heightIn);
         void setTetrominoe(int arr[][2]);
         bool checkCollision(int arr[][2]);
-        void removeRows(int numRowsToDelete);
         void getBoardState(std::vector< std::vector<int> > &board);
         int getWidth();
         int getHeight();
+        void checkFullRows();
         void printSelf();
 };
 
@@ -37,14 +38,16 @@ Board::Board(int widthIn, int heightIn)
     }
 }
 
-void Board::removeRows(int numRowsToDelete)
+void Board::deleteRow(int rowToDelete)
 {
-    for(int i=0; i<numRowsToDelete; i++)
-    {
-        std::vector<int> newRow(width, 0);
-        boardState.erase(boardState.begin() + height - 1);
-        boardState.insert(boardState.begin(), newRow);
-    }
+    std::vector<int> newRow(width, 0);
+    boardState.erase(boardState.begin() + rowToDelete);
+    boardState.insert(boardState.begin(), newRow);
+    // for(int i=0; i<numRowsToDelete; i++)
+    // {
+    //     boardState.erase(boardState.begin() + height - 1);
+    //     boardState.insert(boardState.begin(), newRow);
+    // }
 }
 
 void Board::setTetrominoe(int arr[][2])
@@ -102,6 +105,26 @@ int Board::getHeight()
     return height;
 }
 
+void Board::checkFullRows()
+{
+    bool rowFull;
+    for(int i=0; i<height; i++)
+    {
+        rowFull = true;
+        for(int j=0; j<width; j++)
+        {
+            if(boardState[i][j] == 0)
+            {
+                rowFull = false;
+            }
+        }
+        if(rowFull)
+        {
+            deleteRow(i);
+        }
+    }
+}
+
 void Board::printSelf()
 {
     for(int i=0; i<height; i++)
@@ -112,7 +135,7 @@ void Board::printSelf()
             {
                 std::cout<<"# ";
             }else{
-                std::cout<<". ";
+                std::cout<<"- ";
             }
         }
         std::cout<<std::endl;

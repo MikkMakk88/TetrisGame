@@ -23,7 +23,7 @@ int main()
         input(dir, gameOver);
         logic(board, tetrominoe, dir, gameOver);
         // dictates game speed by forcing tetrominoe to move down
-        if(downMoveCnt == 10)
+        if(downMoveCnt == 15)
         {
             dir = DOWN;
             logic(board, tetrominoe, dir, gameOver);

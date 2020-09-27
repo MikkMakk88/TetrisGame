@@ -44,7 +44,7 @@ void draw(Board &board, Tetrominoe &tetrominoe, bool debug)
             {
                 mvprintw(i, j*2, "# ");
             } else{
-                mvprintw(i, j*2, ". ");
+                mvprintw(i, j*2, "- ");
             }
         }
     }
@@ -151,4 +151,5 @@ void logic(Board &board, Tetrominoe &tetrominoe, eDirection dir, bool &gameOver)
             tetrominoe.revertShape();
         }
     }
+    board.checkFullRows();
 }
