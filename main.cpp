@@ -1,16 +1,17 @@
 #include "gameLoopFunctions.hpp"
 
 // definitions
-#define width 15
+#define width 12
 #define height 20
 
 int main()
 {
     // declare variables
     eDirection dir;
-    int score, downMoveCnt;
+    int downMoveCnt;
     bool gameOver = false;
     bool debug = true;
+    int score = 0;
     // initialize board and tetrominoe
     Board board(width, height);
     Tetrominoe tetrominoe(width / 2 - 2, 0);
@@ -19,7 +20,7 @@ int main()
     setup(); 
     while(!gameOver)
     {
-        draw(board, tetrominoe, debug);
+        draw(board, tetrominoe, score, debug);
         input(dir, gameOver);
         logic(board, tetrominoe, dir, gameOver);
         // dictates game speed by forcing tetrominoe to move down

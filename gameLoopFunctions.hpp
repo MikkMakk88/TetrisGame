@@ -7,7 +7,7 @@ int fps = 30;
 bool tetronimoeExists = false;
 
 void setup();
-void draw(Board &board, Tetrominoe &tetrominoe, bool debug);
+void draw(Board &board, Tetrominoe &tetrominoe, int score, bool debug);
 void input(eDirection &dir, bool &gameOver);
 void logic(Board &board, Tetrominoe &tetrominoe, eDirection dir, bool &gameOver);
 
@@ -24,7 +24,7 @@ void setup()
 
 }
 
-void draw(Board &board, Tetrominoe &tetrominoe, bool debug)
+void draw(Board &board, Tetrominoe &tetrominoe, int score, bool debug)
 {
     clear();
 
@@ -42,9 +42,9 @@ void draw(Board &board, Tetrominoe &tetrominoe, bool debug)
         {
             if(boardState[i][j])
             {
-                mvprintw(i, j*2, "# ");
+                mvprintw(i + 1, j*2 + 2, "# ");
             } else{
-                mvprintw(i, j*2, "- ");
+                mvprintw(i + 1, j*2 + 2, "  ");
             }
         }
     }
@@ -57,8 +57,27 @@ void draw(Board &board, Tetrominoe &tetrominoe, bool debug)
     {
         x = blockCoordinates[i][0];
         y = blockCoordinates[i][1];
-        mvprintw(y, x*2, "# ");
+        mvprintw(y + 1, x*2 + 2, "# ");
     }
+
+    // draw Panel
+    const int panelwidth = 2 * (width + 15);
+    // first draw top and bottom of panel
+    for(int i=0; i<panelwidth + 1; i++)
+    {
+        mvprintw(0, i, "#");                // top
+        mvprintw(height, i, "#");           // bottom
+    }
+    // now sides and divider
+    for(int i=0; i<height; i++)
+    {
+        mvprintw(i + 1, 0, "#");            // left side
+        mvprintw(i + 1, width * 2 + 2, "#");        // divider
+        mvprintw(i + 1, panelwidth, "#");   // right side
+    }
+    // draw score in panel
+    mvprintw(height - 2, width*2 + 8, "Score: %d", score);
+
 
     // debug info
     if(debug)
@@ -138,8 +157,7 @@ void logic(Board &board, Tetrominoe &tetrominoe, eDirection dir, bool &gameOver)
     result = board.checkCollision(blockCoordinates);
     if(result)
     {
-        // if collision happened and last action was move down
-        // freeze block on board
+        // if collision happened and last action was move down then set the block on the board
         if(dir == DOWN)
         {
             tetrominoe.revertShape();
