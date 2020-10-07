@@ -1,6 +1,8 @@
 #include <ncurses.h>
+#include <cmath> // pow
 #include "TetrominoeClass.hpp"
 #include "BoardClass.hpp"
+
 
 enum eDirection {NONE, LEFT, RIGHT, UP, DOWN};
 int fps = 30;
@@ -9,7 +11,7 @@ bool tetronimoeExists = false;
 void setup();
 void draw(Board &board, Tetrominoe &tetrominoe, int score, bool debug);
 void input(eDirection &dir, bool &gameOver);
-void logic(Board &board, Tetrominoe &tetrominoe, eDirection dir, bool &gameOver);
+void logic(Board &board, Tetrominoe &tetrominoe, eDirection dir, bool &gameOver, int &score, int &combo);
 
 
 void setup()
@@ -131,7 +133,7 @@ void input(eDirection &dir, bool &gameOver)
     }
 }
 
-void logic(Board &board, Tetrominoe &tetrominoe, eDirection dir, bool &gameOver)
+void logic(Board &board, Tetrominoe &tetrominoe, eDirection dir, bool &gameOver, int &score, int &combo)
 {
     switch(dir)
     {
@@ -152,6 +154,7 @@ void logic(Board &board, Tetrominoe &tetrominoe, eDirection dir, bool &gameOver)
     }
 
     bool result;
+    bool tetrominoePlaced = false;
     int blockCoordinates[4][2];
     tetrominoe.getBlockCoordinates(blockCoordinates);
     result = board.checkCollision(blockCoordinates);
@@ -164,10 +167,27 @@ void logic(Board &board, Tetrominoe &tetrominoe, eDirection dir, bool &gameOver)
             tetrominoe.getBlockCoordinates(blockCoordinates);
             board.setTetrominoe(blockCoordinates);
             tetrominoe.newTetrominoe();
+            tetrominoePlaced = true;
         }
         else{
             tetrominoe.revertShape();
         }
     }
-    board.checkFullRows();
+    // check if rows are full if tetrominoe was placed
+    // if they are, delete them and increment score
+    if(tetrominoePlaced)
+    {
+        int deletedNum;
+        deletedNum = board.checkFullRows();
+        if(deletedNum)
+        {
+            score += pow(2, deletedNum + combo);
+            combo += deletedNum;
+        }
+        else
+        {
+            combo = 0;
+        }
+        
+    }
 }

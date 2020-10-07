@@ -14,7 +14,7 @@ class Board
         void getBoardState(std::vector< std::vector<int> > &board);
         int getWidth();
         int getHeight();
-        void checkFullRows();
+        int checkFullRows();
         void printSelf();
 };
 
@@ -105,9 +105,12 @@ int Board::getHeight()
     return height;
 }
 
-void Board::checkFullRows()
+// check if rows at the bottom the board are full, if they are then delete the rows
+// and return the number of rows deleted
+int Board::checkFullRows()
 {
     bool rowFull;
+    int deletedNum = 0;
     for(int i=0; i<height; i++)
     {
         rowFull = true;
@@ -121,8 +124,10 @@ void Board::checkFullRows()
         if(rowFull)
         {
             deleteRow(i);
+            deletedNum++;
         }
     }
+    return deletedNum;
 }
 
 void Board::printSelf()
